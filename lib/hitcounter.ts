@@ -18,7 +18,8 @@ export class HitCounter extends Construct{
             partitionKey: {
                 name: 'path',
                 type: dynamodb.AttributeType.STRING
-            }
+            },
+            encryption: dynamodb.TableEncryption.AWS_MANAGED
         })
         this.table = table
 

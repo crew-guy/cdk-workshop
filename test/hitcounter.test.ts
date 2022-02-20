@@ -43,12 +43,34 @@ test('Lambda Has Environment Variables', () => {
         {
             Variables: {
                 DOWNSTREAM_FUNCTION_NAME: {
-                    Ref:"TestFunctionXXXXX"
+                    Ref:"TestFunction22AD90FC"
                 },
                 HITS_TABLE_NAME: {
-                    Ref:"MyTestConstructHitsXXXXX"
+                    Ref:"MyTestConstructHits24A357F0"
                 }
             }
         }
     )
+})
+
+test("DynamoDB Table created with encryption", () => {
+    const stack = new cdk.Stack()
+
+    // WHEN
+    new HitCounter(stack, "MyTestConstruct", {
+        downstream: new lambda.Function(stack, "MyTestFunction", {
+            runtime: lambda.Runtime.NODEJS_14_X,
+            handler: "hello.handler",
+            code:lambda.Code.fromAsset("lambda")
+        })
+    })
+
+    // THEN 
+    const template = Template.fromStack(stack)
+
+    template.hasResourceProperties("AWS::DynamoDB::Table", {
+        SSESpecification: {
+            SSEEnabled:true
+        }
+    })
 })
