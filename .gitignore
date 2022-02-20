@@ -3,6 +3,9 @@
 *.d.ts
 node_modules
 
+# Not ignore lamdbda function logic
+!lambda/*.js
+
 # CDK asset staging directory
 .cdk.staging
 cdk.out
